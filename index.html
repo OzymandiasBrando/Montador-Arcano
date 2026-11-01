@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0e1724">
+  <meta name="description" content="Montador Arcano de Project: Vondrag: crie desenhos mágicos com formas, elementos e aprimoramentos.">
+  <title>Montador Arcano | Project: Vondrag</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css?v=3.0.0">
+  <script src="script.js?v=3.0.0" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="#montador" data-nav="montador" aria-label="Vondrag, abrir montador">
+          <span class="brand-mark" aria-hidden="true">◇</span>
+          <span><strong>VONDRAG</strong><small>PROJECT · SISTEMA ARCANO</small></span>
+        </a>
+        <nav class="main-nav" aria-label="Navegação principal">
+          <button class="nav-tab active" data-view="montador" aria-current="page">✧ <span>Montador</span></button>
+          <button class="nav-tab" data-view="guia">▤ <span>Como funciona</span></button>
+          <button class="nav-tab" data-view="biblioteca">▦ <span>Magias</span><span class="count" id="library-count">0</span></button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="view active" id="view-montador" aria-labelledby="montador-title">
+        <div class="page-intro">
+          <div class="eyebrow"><span class="line"></span> OFICINA DE DESENHOS MÁGICOS</div>
+          <h1 id="montador-title">Crie sua <em>magia.</em></h1>
+          <p>Escolha uma forma, um elemento e, se quiser, adicione novas funções. O desenho é montado automaticamente.</p>
+        </div>
+
+        <div class="workbench">
+          <div class="work-form">
+            <section class="panel step-panel" aria-labelledby="step-one">
+              <div class="step-heading"><span class="step-number">01</span><div><h2 id="step-one">Comece pelo básico</h2><p>Uma forma + um elemento já formam uma magia.</p></div></div>
+              <div class="field"><label for="spell-name">Nome da magia <span class="subtle">(opcional)</span></label><input id="spell-name" class="input" maxlength="90" placeholder="Ex.: Bola de Fogo" autocomplete="off"></div>
+              <div class="field"><div class="field-heading"><label>Nível do desenho</label><span class="help">Tier limita as formas</span></div><div class="tier-select" id="tier-select"></div></div>
+              <div class="field"><label>Forma principal</label><div class="shape-choice" id="main-shapes"></div></div>
+              <div class="two-fields">
+                <div class="field"><label for="main-mode">O que ela faz?</label><select id="main-mode" class="select"></select></div>
+                <div class="field"><label for="main-element">Elemento</label><select id="main-element" class="select"></select></div>
+              </div>
+              <div class="field"><label for="main-effect">Propriedade elemental</label><select id="main-effect" class="select"></select></div>
+            </section>
+
+            <section class="panel step-panel" aria-labelledby="step-two">
+              <div class="step-heading"><span class="step-number">02</span><div><h2 id="step-two">Quer adicionar algo?</h2><p>Esta etapa é opcional. Você pode fazer magias com uma única forma.</p></div></div>
+              <div class="quick-actions" id="quick-actions"></div>
+              <div class="layer-list" id="layer-list"></div>
+              <div id="layer-editor"></div>
+              <p class="mini-tip">As formas são lidas de <strong>fora para dentro</strong>. A ordem pode alterar a magia.</p>
+            </section>
+
+            <section class="panel step-panel" aria-labelledby="step-three">
+              <div class="step-heading"><span class="step-number">03</span><div><h2 id="step-three">Finalize a magia</h2><p>Melhore a duração e confira a descrição antes de salvar.</p></div></div>
+              <div class="modifiers-area" id="modifiers-area"></div>
+              <div class="result-panel" id="result-panel" aria-live="polite"></div>
+              <div class="action-row">
+                <button id="save-spell" class="btn primary" type="button">✧ Salvar no Grimório</button>
+                <button id="copy-spell" class="btn secondary" type="button">Copiar ficha</button>
+                <button id="reset-spell" class="btn text-btn" type="button">Limpar</button>
+              </div>
+            </section>
+          </div>
+
+          <aside class="preview-panel" aria-label="Visualização da magia atual">
+            <div class="preview-heading"><span class="eyebrow plain">DESENHO ARCANO</span><span class="live-dot"><i></i> AO VIVO</span></div>
+            <div class="magic-stage" id="magic-stage"><div class="magic-stage-inner" id="magic-preview"></div></div>
+            <div id="preview-legend" class="preview-legend"></div>
+            <div class="preview-bottom">
+              <small class="muted-label">MAGIA ATUAL</small>
+              <h3 id="preview-name">Bola de Fogo</h3>
+              <p id="preview-desc">Uma magia simples.</p>
+              <div class="preview-metrics" id="preview-metrics"></div>
+              <button id="download-svg" class="btn ghost" type="button">↓ Baixar desenho em SVG</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-guia" aria-labelledby="guia-title" hidden>
+        <div class="page-intro short"><div class="eyebrow"><span class="line"></span> GUIA PARA JOGADORES</div><h1 id="guia-title">Aprenda em <em>minutos.</em></h1><p>O essencial do sistema, sem precisar decorar um manual inteiro.</p></div>
+        <div class="guide-layout">
+          <div class="guide-main">
+            <div class="guide-hero panel"><div class="guide-formula"><span>FORMA</span><b>+</b><span>ELEMENTO</span><b>=</b><strong>MAGIA</strong></div><p>A forma define <strong>o que acontece</strong>. O elemento define <strong>do que a magia é feita</strong>. Aprimoramentos mudam o resultado.</p><button class="btn secondary" data-view="montador" type="button">Criar minha primeira magia</button></div>
+            <section class="guide-section"><h2>1. As três formas</h2><div class="guide-cards">
+              <article class="guide-card"><span class="guide-symbol">◯</span><h3>Círculo</h3><p>Cria um <strong>projétil</strong> ou marca uma <strong>área</strong>.</p><small>Ex.: Bola de Fogo</small></article>
+              <article class="guide-card"><span class="guide-symbol">□</span><h3>Quadrado</h3><p>Cria uma <strong>parede</strong> ou <strong>armazena</strong> um efeito.</p><small>Ex.: Parede de Terra</small></article>
+              <article class="guide-card"><span class="guide-symbol">△</span><h3>Triângulo</h3><p><strong>Controla</strong> o próprio elemento ou o focaliza em objeto visível.</p><small>Ex.: mover Terra com Terra</small></article>
+            </div></section>
+            <section class="guide-section"><h2>2. Seis elementos</h2><div id="guide-elements" class="element-guide"></div></section>
+            <section class="guide-section"><h2>3. Tiers e aprimoramentos</h2><div class="panel padded"><div class="tier-table"><div><strong>Tier 1</strong><span>1 forma · 4 aprimoramentos</span></div><div><strong>Tier 2</strong><span>2 formas · 8 aprimoramentos</span></div><div><strong>Tier 3</strong><span>3 formas · 12 aprimoramentos</span></div></div><div class="rule-grid"><div><strong>✦ Estrela</strong><p>Condição dura <strong>1 + Estrelas</strong> turnos.</p></div><div><strong>⬡ Hexágono</strong><p>Estrutura dura <strong>2 + Hexágonos</strong> turnos.</p></div><div><strong>◇ Diamante</strong><p>Muda um elemento puro. <strong>Não modifica fusão.</strong></p></div></div></div></section>
+            <section class="guide-section"><h2>4. Como combinar as formas</h2><div class="simple-examples"><div><strong>Círculo de Terra → Quadrado de Raio</strong><p>Projétil de Terra que aplica Paralisia ao atingir. O Raio armazenado não acrescenta dano.</p></div><div><strong>Quadrado de Terra → Quadrado de Raio</strong><p>Parede de Terra que aplica Paralisia a quem toca ou quebra, de acordo com o gatilho escolhido. Reaplica enquanto existir.</p></div><div><strong>Quadrado de Terra → Triângulo de Terra</strong><p>Parede de Terra controlável. O Triângulo precisa ter o mesmo elemento da parede.</p></div></div></section>
+            <section class="guide-section"><h2>5. Regras especiais</h2><div class="panel accordion-panel"><details><summary>Fusão é diferente de armazenamento <span>+</span></summary><p><strong>Fusão:</strong> Fogo e Raio juntos na mesma camada criam Plasma. Fogo com Água não pode ser fundido. <strong>Armazenamento:</strong> elementos em camadas diferentes não se misturam automaticamente.</p></details><details><summary>Quando um efeito guardado é ativado? <span>+</span></summary><p>No <strong>projétil</strong>, no impacto. Na <strong>parede</strong>, ao toque ou à quebra, conforme a escolha do jogador. Paredes reaplicam o efeito enquanto existirem. O efeito guardado não dá dano direto extra.</p></details><details><summary>Controle e alcance do Triângulo <span>+</span></summary><p>O Triângulo só controla manifestações do <strong>mesmo elemento</strong>. Seu alcance é de 6 metros (Tier 1), 8 metros (Tier 2) ou 10 metros (Tier 3). O controle de fusões depende de uma representação que ainda não foi detalhada.</p></details><details><summary>Área dos Círculos <span>+</span></summary><p>O Círculo tem escala inicial de 3 metros, e cada Círculo extra de ampliação acrescenta 2 metros. Ainda não foi definido se essa medida representa raio ou diâmetro.</p></details><details><summary>O que ainda está em teste? <span>+</span></summary><p>Os danos ofensivos de 3/5/7 Tokens por Tier (+1 para fusão), quase todas as fusões sugeridas, a reaplicação ao mesmo alvo e gatilhos para outros tipos de estrutura ainda não são regras definitivas. A incompatibilidade Fogo + Gelo também está em estudo.</p></details></div></section>
+          </div>
+          <aside class="guide-side panel"><span class="eyebrow plain">LEMBRETE RÁPIDO</span><h3>Crie em 4 passos</h3><ol><li>Escolha a forma.</li><li>Escolha o elemento.</li><li>Adicione outras formas se quiser.</li><li>Confira os efeitos e salve.</li></ol><div class="guide-side-tip"><strong>Regra de ouro</strong><p>O jogador não precisa começar usando três camadas. Uma boa magia pode ser bem simples.</p></div></aside>
+        </div>
+      </section>
+
+      <section class="view" id="view-biblioteca" aria-labelledby="biblioteca-title" hidden>
+        <div class="page-intro short"><div class="eyebrow"><span class="line"></span> GRIMÓRIO DE VONDRAG</div><h1 id="biblioteca-title">Suas <em>magias.</em></h1><p>Magias prontas para aprender e todas as que você criar. Abra qualquer card para editar no Montador.</p></div>
+        <div class="library-toolbar panel"><div class="field search-field"><label for="search-spells">Pesquisar magia</label><input id="search-spells" class="input" placeholder="Nome, elemento, efeito…"></div><div class="field filter-field"><label for="filter-tier">Tier</label><select id="filter-tier" class="select"><option value="all">Todos</option><option value="1">Tier 1</option><option value="2">Tier 2</option><option value="3">Tier 3</option></select></div><div class="library-tools"><button class="btn ghost" id="export-book">Exportar Grimório</button><button class="btn ghost" id="import-book">Importar JSON</button><input id="import-input" type="file" accept=".json,application/json" hidden></div></div>
+        <div class="library-heading"><h2>Exemplos para começar</h2><span>Abra um exemplo no montador para aprender</span></div>
+        <div class="spell-grid" id="example-cards"></div>
+        <div class="library-heading saved-heading"><h2>Minhas magias</h2><span id="saved-count">Nenhuma magia salva</span></div>
+        <div class="spell-grid" id="saved-cards"></div>
+      </section>
+    </main>
+    <footer class="footer shell"><span>PROJECT: VONDRAG · SISTEMA DE DESENHOS MÁGICOS</span><span>Feito para criar, não para complicar.</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
